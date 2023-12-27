@@ -1,6 +1,6 @@
 # CodeCheckID-DocGenerator
 
-This tool streamlines the management and storage of CodeCheck details efficiently. It provides various options for handling files, including creating new files, overwriting existing ones, or appending to an existing file. 
+This tool streamlines the management and storage of Kibo's PROG-2 CodeCheck details efficiently. It provides various options for handling files, including creating new files, overwriting existing ones, or appending to an existing file. 
 
 ## Usage
 
@@ -15,11 +15,27 @@ This tool streamlines the management and storage of CodeCheck details efficientl
     cd CodeCheckID-DocGenerator
     ```
    
+### Configuration
+
+Before running the program, follow these steps to configure the default directory:
+
+1. **Open `main.py` File:**
+   
+    ```python
+    # Open main.py in a text editor or IDE
+    ```
+3. **Update Default Directory:**
+    ```python
+    # Inside main.py, navigate to line 9
+    DIR_NAME = 'your_desired_directory'
+    ```
+    Replace `'your_desired_directory'` with your preferred directory path.
+
 ### Running the Program
 
 Make sure you have Python installed on your system. Then, follow these steps:
 
-1. **Open Terminal:**
+1. **Open Command Prompt/Terminal:**
    
 2. **Execute the Program:**
     ```
@@ -49,4 +65,5 @@ This option enables the addition of new CodeCheck details to an already existing
 ## Contributors
 
 - Oluwapolore Oyeniji
+
 
