@@ -6,14 +6,14 @@ WRITE_TO_NEW_FILE = '1'
 OVERWRITE_EXISTING_FILE = '2'
 APPEND_TO_EXISTING_FILE = '3'
 CHOICES = [WRITE_TO_NEW_FILE, OVERWRITE_EXISTING_FILE, APPEND_TO_EXISTING_FILE]
-DIR_NAME = '' # a defualt directory, you can modify it ifyou will like to
+DIR_NAME = '' # a default directory, you can modify it if you would like to
 
 # Prompts
 FILE_OPERATION_PROMPT = '''
 Do you want to write to a new file, overwrite an existing file or append to an existing file?
 Type '1' to create a new file 
 Type '2' to overwrite an existing file
-Type '3' to append to an exiting file: '''
+Type '3' to append to an existing file: '''
 FILE_NAME_PROMPT = "Enter the file name: "
 WARNING_PROMPT = "Enter y to continue, enter n to stop"
 
