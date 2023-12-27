@@ -8,7 +8,7 @@ This tool streamlines the management and storage of CodeCheck details efficientl
 
 1. **Clone the Repository:**
     ```
-    git clone <[repository_URL](https://github.com/oluwapoloreoyeniji/CodeCheckID-DocGenerator.git)>
+    git clone https://github.com/oluwapoloreoyeniji/CodeCheckID-DocGenerator.git
     ```
 2. **Navigate to the Directory:**
     ```
