@@ -6,6 +6,7 @@ WRITE_TO_NEW_FILE = '1'
 OVERWRITE_EXISTING_FILE = '2'
 APPEND_TO_EXISTING_FILE = '3'
 CHOICES = [WRITE_TO_NEW_FILE, OVERWRITE_EXISTING_FILE, APPEND_TO_EXISTING_FILE]
+DIR_NAME = '' # a defualt directory, you can modify it ifyou will like to
 
 # Prompts
 FILE_OPERATION_PROMPT = '''
@@ -14,7 +15,6 @@ Type '1' to create a new file
 Type '2' to overwrite an existing file
 Type '3' to append to an exiting file: '''
 FILE_NAME_PROMPT = "Enter the file name: "
-DIRECTORY_NAME_PROMPT = "Enter the directory name: "
 WARNING_PROMPT = "Enter y to continue, enter n to stop"
 
 def main():
@@ -31,9 +31,8 @@ def main():
 
         if user_input == WRITE_TO_NEW_FILE:
             file_name = get_user_input(FILE_NAME_PROMPT)
-            dir_name = get_user_input(DIRECTORY_NAME_PROMPT)
 
-            file_path = path_creator(file_name, dir_name)
+            file_path = path_creator(file_name, DIR_NAME)
             path_exists = does_path_exist(file_path)
 
             if path_exists:
@@ -52,9 +51,8 @@ def main():
 
         elif user_input == OVERWRITE_EXISTING_FILE or user_input == APPEND_TO_EXISTING_FILE:
             file_name = get_user_input(FILE_NAME_PROMPT)
-            dir_name = get_user_input(DIRECTORY_NAME_PROMPT)
 
-            file_path = path_creator(file_name, dir_name)
+            file_path = path_creator(file_name, DIR_NAME)
             path_exists = does_path_exist(file_path)
 
             if not path_exists:
