@@ -1,66 +1,86 @@
-import os
-import shutil
+import generator
+from helpers import get_user_input, get_codecheck_content, path_creator, does_path_exist
 
-class TextDocumentGenerator:
-    def __init__(self, code_check_url, code_check_id, file_name, destination_path):
-        """
-        This function initialize the TextDocumentGenerator with the provided parameters
+# Constants
+WRITE_TO_NEW_FILE = '1'
+OVERWRITE_EXISTING_FILE = '2'
+APPEND_TO_EXISTING_FILE = '3'
+CHOICES = [WRITE_TO_NEW_FILE, OVERWRITE_EXISTING_FILE, APPEND_TO_EXISTING_FILE]
 
-        :param code_check_url: (str) The CodeCheck URL
-        :param code_check_id: (str) The CodeCheck ID
-        :param file_name: (str) The name for the text document
-        :param destination_path: (str) The destination path for the generated text document
-        """
-        self.code_check_url = code_check_url
-        self.code_check_id = code_check_id
-        self.file_name = file_name
-        self.destination_path = destination_path
-
-    def create_text_document(self):
-        """
-        This function creates a text document with the CodeCheck URL and ID
-
-        :returns: (str) The name of the generated text document
-        """
-        default_content = f"CodeCheckUrl: {self.code_check_url}\nCodeCheckId: {self.code_check_id}"
-        file_name_with_extension = f"{self.file_name}.txt"
-
-        with open(file_name_with_extension, "w", encoding="utf-8") as file:
-            file.write(default_content)
-
-        return file_name_with_extension
-
-    def move_text_document(self, source_file):
-        """
-        This function moves the generated text document to the specified destination path
-
-        :param source_file: (str) The source file to be moved
-        """
-        if not os.path.exists(self.destination_path):
-            os.makedirs(self.destination_path)
-
-        shutil.move(source_file, self.destination_path)
-
-    def generate_and_move_document(self):
-        """
-        This function generates a text document and move it to the specified destination path 
-        It then prints a message indicating the completion of the process.
-        """
-        source_file = self.create_text_document()
-        self.move_text_document(source_file)
-        print(f"'{source_file}' has been generated with provided CodeCheckUrl and ID. You can find it in '{self.destination_path}'.")
+# Prompts
+FILE_OPERATION_PROMPT = '''
+Do you want to write to a new file, overwrite an existing file or append to an existing file?
+Type '1' to create a new file 
+Type '2' to overwrite an existing file
+Type '3' to append to an exiting file: '''
+FILE_NAME_PROMPT = "Enter the file name: "
+DIRECTORY_NAME_PROMPT = "Enter the directory name: "
+WARNING_PROMPT = "Enter y to continue, enter n to stop"
 
 def main():
     """
-    This is the main function to interact with the user and utilize the TextDocumentGenerator
+    This is the main function to interact with the user and utilize the FileGenerator
     """
-    code_check_url = input("Enter the CodeCheckUrl: ")
-    code_check_id = input("Enter the CodeCheckId: ")
-    file_name = input('Enter a name for the text document: ')
-    destination_path = "C:/Users/HP/Desktop/kibo-real/2nd-term/prog-2/CodeCheck ID"
+    while True:
+        user_input = get_user_input(FILE_OPERATION_PROMPT)
+        content = get_codecheck_content()
 
-    generator = TextDocumentGenerator(code_check_url, code_check_id, file_name, destination_path)
-    generator.generate_and_move_document()
+        if user_input not in CHOICES:
+            print("Invalid choice. Please select a valid option.")
+            continue
 
-if __name__ == "__main__":
+        if user_input == WRITE_TO_NEW_FILE:
+            file_name = get_user_input(FILE_NAME_PROMPT)
+            dir_name = get_user_input(DIRECTORY_NAME_PROMPT)
+
+            file_path = path_creator(file_name, dir_name)
+            path_exists = does_path_exist(file_path)
+
+            if path_exists:
+                print("Error: File already exists. Please choose a different file name.")
+                continue
+
+            if not content:
+                print("Error: No content provided.")
+                continue
+
+            creator = generator.FileGenerator(file_name=file_path, incoming_content=content)
+            creator.create_new_file()
+            creator.write_to_file()
+            print(f"Success, File: {file_name} has been created and content has been written to it.")
+            break
+
+        elif user_input == OVERWRITE_EXISTING_FILE or user_input == APPEND_TO_EXISTING_FILE:
+            file_name = get_user_input(FILE_NAME_PROMPT)
+            dir_name = get_user_input(DIRECTORY_NAME_PROMPT)
+
+            file_path = path_creator(file_name, dir_name)
+            path_exists = does_path_exist(file_path)
+
+            if not path_exists:
+                print("Error: File does not exist.")
+                continue
+
+            if not content:
+                print("Error: No content provided.")
+                continue
+
+            creator = generator.ExistingFileGenerator(file_name=file_path, incoming_content=content)
+
+            if user_input == OVERWRITE_EXISTING_FILE:
+                print(f"WARNING!!! File: {file_name} will be overwritten")
+                warning_choice = get_user_input(WARNING_PROMPT)
+                if warning_choice == 'y':
+                    creator.overwrite_file()
+                    print(f"Success, File: {file_name} has been overwritten with content.")
+
+            elif user_input == APPEND_TO_EXISTING_FILE:
+                print(f"WARNING!!! Content will be appended to File: {file_name}")
+                warning_choice = get_user_input(WARNING_PROMPT)
+                if warning_choice == 'y':
+                    creator.append_to_file()
+                    print(f"Success, Content has been appended to File: {file_name}.")
+            break
+
+if __name__ == '__main__':
     main()
