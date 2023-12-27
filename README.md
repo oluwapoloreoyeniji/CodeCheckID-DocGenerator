@@ -35,9 +35,13 @@ Before running the program, follow these steps to configure the default director
 
 Make sure you have Python installed on your system. Then, follow these steps:
 
-1. **Open Command Prompt/Terminal:**
+1. **Open Command Prompt/Terminal**
+2. **Navigate to the Directory:**
+    ```
+    cd CodeCheckID-DocGenerator
+    ```
    
-2. **Execute the Program:**
+3. **Execute the Program:**
     ```
     python main.py
     ```
